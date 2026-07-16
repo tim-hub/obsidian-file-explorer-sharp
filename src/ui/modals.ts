@@ -1,12 +1,12 @@
 import { FuzzySuggestModal, Modal, TFile, TFolder } from "obsidian";
 
-import FileExplorerPlusPlugin from "src/main";
+import FileExplorerSharpPlugin from "src/main";
 import { Filter, TagFilter, PathFilter, FrontMatterFilter } from "src/settings";
 import { checkFrontMatterFilter, checkPathFilter, checkTagFilter } from "src/utils";
 
 export class InputFilterNameModal extends FuzzySuggestModal<Filter> {
   constructor(
-    private plugin: FileExplorerPlusPlugin,
+    private plugin: FileExplorerSharpPlugin,
     private actionType: "PIN" | "HIDE",
   ) {
     super(plugin.app);
@@ -94,7 +94,7 @@ export class InputFilterNameModal extends FuzzySuggestModal<Filter> {
 
 export class PathsActivatedModal extends Modal {
   constructor(
-    private plugin: FileExplorerPlusPlugin,
+    private plugin: FileExplorerSharpPlugin,
     private actionType: "PIN" | "HIDE",
     private specificFilter?: Filter,
     private filterType?: "PATH" | "TAG" | "FRONTMATTER",
@@ -126,9 +126,9 @@ export class PathsActivatedModal extends Modal {
         if (this.filterType === "PATH") {
           return checkPathFilter(this.specificFilter as PathFilter, file);
         } else if (this.filterType === "TAG") {
-          return checkTagFilter(this.specificFilter as TagFilter, file);
+          return checkTagFilter(this.app, this.specificFilter as TagFilter, file);
         } else if (this.filterType === "FRONTMATTER") {
-          return checkFrontMatterFilter(this.specificFilter as FrontMatterFilter, file);
+          return checkFrontMatterFilter(this.app, this.specificFilter as FrontMatterFilter, file);
         }
 
         return false;
@@ -155,7 +155,7 @@ export class PathsActivatedModal extends Modal {
 
       const tagFiltersActivated = tagFilters
         .map((filter) => {
-          if (checkTagFilter(filter, file)) {
+          if (checkTagFilter(this.app, filter, file)) {
             if (filter.name && filter.name !== "") {
               return filter.name;
             } else {
@@ -169,7 +169,7 @@ export class PathsActivatedModal extends Modal {
 
       const frontMatterFiltersActivated = frontMatterFilters
         .map((filter) => {
-          if (checkFrontMatterFilter(filter, file)) {
+          if (checkFrontMatterFilter(this.app, filter, file)) {
             if (filter.name && filter.name !== "") {
               return filter.name;
             } else {
@@ -187,7 +187,7 @@ export class PathsActivatedModal extends Modal {
       return file;
     });
 
-    contentEl.addClasses(["file-explorer-plus", "filters-activated-modal"]);
+    contentEl.addClasses(["file-explorer-sharp", "filters-activated-modal"]);
 
     const data = [["Path", "Type", "Filters"]];
 

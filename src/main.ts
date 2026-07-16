@@ -1,15 +1,15 @@
 import { Plugin, TAbstractFile, FileExplorerView, WorkspaceLeaf, PathVirtualElement } from "obsidian";
 import { around } from "monkey-around";
 
-import FileExplorerPlusSettingTab, {
-  FileExplorerPlusPluginSettings,
-  FILE_EXPLORER_PLUS_DEFAULT_SETTINGS,
+import FileExplorerSharpSettingTab, {
+  FileExplorerSharpPluginSettings,
+  FILE_EXPLORER_SHARP_DEFAULT_SETTINGS,
 } from "./settings";
 import { addCommandsToFileMenu, addOnRename, addOnDelete, addOnTagChange, addCommands } from "./handlers";
 import { checkPathFilter, checkTagFilter, changeVirtualElementPin, checkFrontMatterFilter } from "./utils";
 
-export default class FileExplorerPlusPlugin extends Plugin {
-  settings: FileExplorerPlusPluginSettings;
+export default class FileExplorerSharpPlugin extends Plugin {
+  settings: FileExplorerSharpPluginSettings;
 
   async onload() {
     await this.loadSettings();
@@ -20,7 +20,7 @@ export default class FileExplorerPlusPlugin extends Plugin {
     addOnTagChange(this);
     addCommands(this);
 
-    this.addSettingTab(new FileExplorerPlusSettingTab(this.app, this));
+    this.addSettingTab(new FileExplorerSharpSettingTab(this.app, this));
 
     this.app.workspace.onLayoutReady(() => {
       this.patchFileExplorer();
@@ -32,7 +32,7 @@ export default class FileExplorerPlusPlugin extends Plugin {
     });
 
     this.app.workspace.on("layout-change", () => {
-      if (!this.getFileExplorer()?.fileExplorerPlusPatched) {
+      if (!this.getFileExplorer()?.fileExplorerSharpPatched) {
         this.patchFileExplorer();
 
         const fileExplorer = this.getFileExplorer();
@@ -138,7 +138,7 @@ export default class FileExplorerPlusPlugin extends Plugin {
 
     leaf.detach();
 
-    fileExplorer.fileExplorerPlusPatched = true;
+    fileExplorer.fileExplorerSharpPatched = true;
   }
 
   onunload() {
@@ -155,11 +155,11 @@ export default class FileExplorerPlusPlugin extends Plugin {
     if (fileExplorer?.requestSort) {
       fileExplorer.requestSort();
     }
-    fileExplorer.fileExplorerPlusPatched = false;
+    fileExplorer.fileExplorerSharpPatched = false;
   }
 
   async loadSettings() {
-    this.settings = Object.assign({}, FILE_EXPLORER_PLUS_DEFAULT_SETTINGS, await this.loadData());
+    this.settings = Object.assign({}, FILE_EXPLORER_SHARP_DEFAULT_SETTINGS, await this.loadData());
   }
 
   async saveSettings() {
@@ -177,13 +177,13 @@ export default class FileExplorerPlusPlugin extends Plugin {
         return true;
       }
 
-      const tagFilterActivated = this.settings.pinFilters.tags.some((filter) => checkTagFilter(filter, path));
+      const tagFilterActivated = this.settings.pinFilters.tags.some((filter) => checkTagFilter(this.app, filter, path));
       if (tagFilterActivated) {
         return true;
       }
 
       const frontMatterFilterActivated = this.settings.pinFilters.frontMatter?.some((filter) =>
-        checkFrontMatterFilter(filter, path),
+        checkFrontMatterFilter(this.app, filter, path),
       );
       if (frontMatterFilterActivated) {
         return true;
@@ -204,13 +204,13 @@ export default class FileExplorerPlusPlugin extends Plugin {
         return true;
       }
 
-      const tagFilterActivated = this.settings.hideFilters.tags.some((filter) => checkTagFilter(filter, path));
+      const tagFilterActivated = this.settings.hideFilters.tags.some((filter) => checkTagFilter(this.app, filter, path));
       if (tagFilterActivated) {
         return true;
       }
 
       const frontMatterFilterActivated = this.settings.hideFilters.frontMatter?.some((filter) =>
-        checkFrontMatterFilter(filter, path),
+        checkFrontMatterFilter(this.app, filter, path),
       );
       if (frontMatterFilterActivated) {
         return true;

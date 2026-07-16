@@ -43,7 +43,7 @@
 
                 languages.javascript = {
                   enable = true;
-                  pnpm = {
+                  bun = {
                     enable = true;
                     install.enable = true;
                   };

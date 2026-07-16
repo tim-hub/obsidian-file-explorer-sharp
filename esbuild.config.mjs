@@ -25,14 +25,14 @@ if (isDirectory(vaultPath)) {
   const pluginsDir = path.join(vaultPath, ".obsidian", "plugins");
 
   if (isDirectory(pluginsDir)) {
-    const fileExplorerPlusDir = path.join(pluginsDir, "file-explorer-plus");
-    mainJsPath = path.join(fileExplorerPlusDir, "main.js");
-    stylesCssPath = path.join(fileExplorerPlusDir, "styles.css");
-    const hotreloadFilePath = path.join(fileExplorerPlusDir, ".hotreload");
+    const fileExplorerSharpDir = path.join(pluginsDir, "file-explorer-sharp");
+    mainJsPath = path.join(fileExplorerSharpDir, "main.js");
+    stylesCssPath = path.join(fileExplorerSharpDir, "styles.css");
+    const hotreloadFilePath = path.join(fileExplorerSharpDir, ".hotreload");
 
     fs.closeSync(fs.openSync(hotreloadFilePath, "w"));
 
-    console.log(`Saving to ${fileExplorerPlusDir}`);
+    console.log(`Saving to ${fileExplorerSharpDir}`);
   }
 }
 

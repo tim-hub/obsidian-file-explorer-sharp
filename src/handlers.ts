@@ -1,10 +1,10 @@
 import { TFile } from "obsidian";
 
-import FileExplorerPlusPlugin from "./main";
+import FileExplorerSharpPlugin from "./main";
 import { InputFilterNameModal } from "./ui/modals";
 import { checkTagFilter } from "./utils";
 
-export function addCommands(plugin: FileExplorerPlusPlugin) {
+export function addCommands(plugin: FileExplorerSharpPlugin) {
   plugin.addCommand({
     id: "toggle-pin-filter",
     name: "Toggle pin filter",
@@ -44,14 +44,19 @@ export function addCommands(plugin: FileExplorerPlusPlugin) {
   });
 }
 
-export function addOnTagChange(plugin: FileExplorerPlusPlugin) {
+export function addOnTagChange(plugin: FileExplorerSharpPlugin) {
   plugin.registerEvent(
     plugin.app.metadataCache.on("changed", (path, data, cache) => {
-      const isPinned = plugin.getFileExplorer()!.fileItems[path.path].info.pinned;
-      const isHidden = plugin.getFileExplorer()!.fileItems[path.path].info.hidden;
+      const fileItem = plugin.getFileExplorer()?.fileItems[path.path];
+      if (!fileItem) {
+        return;
+      }
 
-      const shouldBePinned = plugin.settings.pinFilters.tags.some((filter) => checkTagFilter(filter, path));
-      const shouldBeHidden = plugin.settings.hideFilters.tags.some((filter) => checkTagFilter(filter, path));
+      const isPinned = fileItem.info.pinned;
+      const isHidden = fileItem.info.hidden;
+
+      const shouldBePinned = plugin.settings.pinFilters.tags.some((filter) => checkTagFilter(plugin.app, filter, path));
+      const shouldBeHidden = plugin.settings.hideFilters.tags.some((filter) => checkTagFilter(plugin.app, filter, path));
 
       if (isPinned !== shouldBePinned && !shouldBeHidden) {
         plugin.getFileExplorer()?.requestSort();
@@ -66,7 +71,7 @@ export function addOnTagChange(plugin: FileExplorerPlusPlugin) {
   );
 }
 
-export function addOnRename(plugin: FileExplorerPlusPlugin) {
+export function addOnRename(plugin: FileExplorerSharpPlugin) {
   plugin.registerEvent(
     plugin.app.vault.on("rename", (path, oldPath) => {
       const hideFilterPreviousIndex = plugin.settings.hideFilters.paths.findIndex((pathFilter) => {
@@ -98,7 +103,7 @@ export function addOnRename(plugin: FileExplorerPlusPlugin) {
   );
 }
 
-export function addOnDelete(plugin: FileExplorerPlusPlugin) {
+export function addOnDelete(plugin: FileExplorerSharpPlugin) {
   plugin.registerEvent(
     plugin.app.vault.on("delete", (path) => {
       const hideFilterPreviousIndex = plugin.settings.hideFilters.paths.findIndex((pathFilter) => {
@@ -130,7 +135,7 @@ export function addOnDelete(plugin: FileExplorerPlusPlugin) {
   );
 }
 
-export function addCommandsToFileMenu(plugin: FileExplorerPlusPlugin) {
+export function addCommandsToFileMenu(plugin: FileExplorerSharpPlugin) {
   plugin.registerEvent(
     plugin.app.workspace.on("file-menu", (menu, path) => {
       if (path instanceof TFile) {

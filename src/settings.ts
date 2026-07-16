@@ -2,7 +2,7 @@ import { App, PluginSettingTab, Setting } from "obsidian";
 
 import { PathSuggest } from "./ui/suggest";
 
-import FileExplorerPlusPlugin from "./main";
+import FileExplorerSharpPlugin from "./main";
 import { PathsActivatedModal } from "./ui/modals";
 
 export interface TagFilter {
@@ -28,7 +28,7 @@ export interface FrontMatterFilter {
   patternType: "REGEX" | "WILDCARD" | "STRICT";
 }
 
-export interface FileExplorerPlusPluginSettings {
+export interface FileExplorerSharpPluginSettings {
   hideStrictPathFilters: boolean;
   pinFilters: {
     active: boolean;
@@ -52,7 +52,7 @@ export interface Filter {
   patternType: "REGEX" | "WILDCARD" | "STRICT";
 }
 
-export const FILE_EXPLORER_PLUS_DEFAULT_SETTINGS: FileExplorerPlusPluginSettings = {
+export const FILE_EXPLORER_SHARP_DEFAULT_SETTINGS: FileExplorerSharpPluginSettings = {
   hideStrictPathFilters: true,
   pinFilters: {
     active: true,
@@ -114,10 +114,10 @@ export const FILE_EXPLORER_PLUS_DEFAULT_SETTINGS: FileExplorerPlusPluginSettings
   },
 };
 
-export default class FileExplorerPlusSettingTab extends PluginSettingTab {
+export default class FileExplorerSharpSettingTab extends PluginSettingTab {
   constructor(
     app: App,
-    private plugin: FileExplorerPlusPlugin,
+    private plugin: FileExplorerSharpPlugin,
   ) {
     super(app, plugin);
   }
@@ -127,15 +127,15 @@ export default class FileExplorerPlusSettingTab extends PluginSettingTab {
 
     // Ensure that new settings exists
     if (!this.plugin.settings.pinFilters.frontMatter) {
-      this.plugin.settings.pinFilters.frontMatter = FILE_EXPLORER_PLUS_DEFAULT_SETTINGS.pinFilters.frontMatter;
+      this.plugin.settings.pinFilters.frontMatter = FILE_EXPLORER_SHARP_DEFAULT_SETTINGS.pinFilters.frontMatter;
     }
 
     if (!this.plugin.settings.hideFilters.frontMatter) {
-      this.plugin.settings.hideFilters.frontMatter = FILE_EXPLORER_PLUS_DEFAULT_SETTINGS.hideFilters.frontMatter;
+      this.plugin.settings.hideFilters.frontMatter = FILE_EXPLORER_SHARP_DEFAULT_SETTINGS.hideFilters.frontMatter;
     }
 
     this.containerEl.empty();
-    this.containerEl.addClass("file-explorer-plus");
+    this.containerEl.addClass("file-explorer-sharp");
 
     new Setting(this.containerEl)
       .setName("Hide strict path filters in settings")

@@ -1,4 +1,4 @@
-import { TAbstractFile, TFile, TFolder, setIcon, PathVirtualElement, TagCache } from "obsidian";
+import { App, TAbstractFile, TFile, TFolder, setIcon, PathVirtualElement, TagCache } from "obsidian";
 import wcmatch from "wildcard-match";
 
 import { FrontMatterFilter, PathFilter, TagFilter } from "./settings";
@@ -25,7 +25,7 @@ export function changeVirtualElementPin(vEl: PathVirtualElement, pin: boolean): 
     vEl.el.addClass("tree-item-pinned");
 
     const pinDiv = document.createElement("div");
-    pinDiv.addClass("file-explorer-plus");
+    pinDiv.addClass("file-explorer-sharp");
     pinDiv.addClass("pin-icon");
     setIcon(pinDiv, "pin");
     vEl.el.firstChild?.insertBefore(pinDiv, vEl.el.firstChild.firstChild);
@@ -89,7 +89,7 @@ export function checkPathFilter(filter: PathFilter, file: TAbstractFile): boolea
   return false;
 }
 
-export function checkTagFilter(filter: TagFilter, file: TAbstractFile): boolean {
+export function checkTagFilter(app: App, filter: TagFilter, file: TAbstractFile): boolean {
   if (file instanceof TFolder) {
     return false;
   }
@@ -98,7 +98,7 @@ export function checkTagFilter(filter: TagFilter, file: TAbstractFile): boolean 
     return false;
   }
 
-  const cachedMetadata = this.app.metadataCache.getFileCache(file as TFile);
+  const cachedMetadata = app.metadataCache.getFileCache(file as TFile);
   if (!cachedMetadata) {
     return false;
   }
@@ -129,7 +129,7 @@ export function checkTagFilter(filter: TagFilter, file: TAbstractFile): boolean 
   return false;
 }
 
-export function checkFrontMatterFilter(filter: FrontMatterFilter, file: TAbstractFile): boolean {
+export function checkFrontMatterFilter(app: App, filter: FrontMatterFilter, file: TAbstractFile): boolean {
   if (file instanceof TFolder) {
     return false;
   }
@@ -138,7 +138,7 @@ export function checkFrontMatterFilter(filter: FrontMatterFilter, file: TAbstrac
     return false;
   }
 
-  const cachedMetadata = this.app.metadataCache.getFileCache(file as TFile);
+  const cachedMetadata = app.metadataCache.getFileCache(file as TFile);
   if (!cachedMetadata) {
     return false;
   }
