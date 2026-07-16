@@ -1,4 +1,4 @@
-# File Explorer# Plugin for [Obsidian.md](https://obsidian.md/)
+# File Explorer Sharp Plugin for [Obsidian.md](https://obsidian.md/)
 
 **File Explorer Sharp** enhances the built-in file explorer in [Obsidian.md](https://obsidian.md/). This plugin enables users to efficiently
 hide and pin files and folders. You can utilize custom wildcard or regex filters based on file/folder names, paths, and tags. Additionally,
@@ -22,7 +22,7 @@ a simple click in the file menu lets you hide or pin specific files or folders.
 
 ## **Ribbon Icon**
 If you want an icon in the ribbon sidebar, I would recommend using [Obsidian Commander](https://github.com/phibr0/obsidian-commander)
-and adding the `File Explorer#: Toggle all hide filters` command.
+and adding the `File Explorer Sharp: Toggle all hide filters` command.
 
 ## **Feature Requests and Bug Reporting**
 
@@ -31,5 +31,5 @@ kindly open an issue for discussion.
 
 ## **License**
 
-File Explorer# is under the GNU [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) license. For more details, see the `LICENSE`
+File Explorer Sharp is under the GNU [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) license. For more details, see the `LICENSE`
 file.
