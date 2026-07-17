@@ -33,3 +33,8 @@ kindly open an issue for discussion.
 
 File Explorer Sharp is under the GNU [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) license. For more details, see the `LICENSE`
 file.
+
+## **Attribution**
+
+File Explorer Sharp is a maintained fork of [File Explorer++](https://github.com/kelszo/obsidian-file-explorer-plus) by
+[kelszo](https://github.com/kelszo), used and redistributed under the same AGPL-3.0 license.
